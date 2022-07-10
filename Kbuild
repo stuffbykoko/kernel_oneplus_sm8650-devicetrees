@@ -9,6 +9,10 @@ dtbo-y += gpu/kalama-gpu.dtbo \
 		gpu/kalamap-hhg-gpu.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_PINEAPPLE), y)
+dtbo-y += gpu/pineapple-gpu.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_SA8155), y)
 dtbo-y += gpu/sa8155-v2-gpu.dtbo
 endif
