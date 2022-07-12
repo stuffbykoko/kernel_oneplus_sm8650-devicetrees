@@ -13,6 +13,15 @@ dtbo-y += kalama-audio.dtbo \
                  kalama-sg-audio-hhg.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_PINEAPPLE), y)
+dtbo-y += pineapple-audio.dtbo \
+                 pineapple-audio-cdp.dtbo \
+                 pineapple-audio-mtp.dtbo \
+                 pineapple-audio-qrd.dtbo \
+                 pineapple-audio-rumi.dtbo
+endif
+
+
 ifeq ($(CONFIG_ARCH_SA8155), y)
 dtbo-y +=  sa8155-audio.dtbo
 endif
