@@ -1,3 +1,6 @@
+dtbo-$(CONFIG_ARCH_PINEAPPLE) += display/pineapple-sde.dtbo \
+		display/pineapple-sde-display-rumi-overlay.dtbo
+
 ifneq ($(CONFIG_ARCH_QTI_VM), y)
 dtbo-$(CONFIG_ARCH_KALAMA) += display/kalama-sde.dtbo \
 		display/kalama-sde-display-rumi-overlay.dtbo \
