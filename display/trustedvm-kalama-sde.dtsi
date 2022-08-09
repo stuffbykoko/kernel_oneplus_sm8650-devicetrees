@@ -1,6 +1,6 @@
-#include <dt-bindings/clock/qcom,gcc-waipio.h>
-#include <dt-bindings/clock/qcom,dispcc-waipio.h>
-#include "waipio-sde-common.dtsi"
+#include <dt-bindings/clock/qcom,gcc-kalama.h>
+#include <dt-bindings/clock/qcom,dispcc-kalama.h>
+#include "kalama-sde-common.dtsi"
 
 &soc {
 	/* dummy display clock provider */
@@ -12,7 +12,7 @@
 
 	smmu_sde_unsec: qcom,smmu_sde_unsec_cb {
                 compatible = "qcom,smmu_sde_unsec";
-                iommus = <&apps_smmu 0x2804 0x402>;
+                iommus = <&apps_smmu 0x1c04 0x2>;
                 qcom,iommu-dma-addr-pool = <0x00020000 0xfffe0000>;
                 qcom,iommu-faults = "non-fatal";
                 dma-coherent;
@@ -34,19 +34,17 @@
 	qcom,tvm-include-reg = <0xaf20000 0x4d68>,
 	    <0xaf30000 0x3fd4>;
 
-	qcom,sde-hw-version =<0x80010000>;
+	qcom,sde-hw-version =<0x90000000>;
 
 	clocks = <&clock_cpucc GCC_DISP_AHB_CLK>,
 		<&clock_cpucc GCC_DISP_HF_AXI_CLK>,
-		<&clock_cpucc GCC_DISP_SF_AXI_CLK>,
 		<&clock_cpucc DISP_CC_MDSS_AHB_CLK>,
 		<&clock_cpucc DISP_CC_MDSS_MDP_CLK>,
+		<&clock_cpucc DISP_CC_MDSS_MDP_CLK_SRC>,
 		<&clock_cpucc DISP_CC_MDSS_VSYNC_CLK>,
-		<&clock_cpucc DISP_CC_MDSS_MDP_LUT_CLK>,
-		<&clock_cpucc DISP_CC_MDSS_ROT_CLK>;
-	clock-names = "gcc_iface", "gcc_bus", "gcc_nrt_bus",
-			"iface_clk", "core_clk", "vsync_clk",
-			"lut_clk", "rot_clk";
+		<&clock_cpucc DISP_CC_MDSS_MDP_LUT_CLK>;
+	clock-names = "gcc_iface", "gcc_bus", "iface_clk", "branch_clk",
+			"core_clk", "vsync_clk", "lut_clk";
 	qcom,sde-trusted-vm-env;
 };
 

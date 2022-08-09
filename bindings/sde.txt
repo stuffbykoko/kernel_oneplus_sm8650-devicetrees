@@ -144,7 +144,7 @@ Optional properties:
 				bank bit used for tile format buffers. First value
 				in the array represents the ddr type and the second
 				value is the hbb value corresponding to the ddr type.
-- qcom,sde-ubwc-version:	Property to specify the UBWC feature version.
+- qcom,sde-ubwc-version:	Property to specify the UBWC feature version. A u32 UBWC version is based on MDSS support.
 - qcom,sde-ubwc-static:	Property to specify the default UBWC static
 				configuration value.
 - qcom,sde-ubwc-bw-calc-version:	A u32 property to specify version of UBWC bandwidth
@@ -218,6 +218,8 @@ Optional properties:
 				tear effect (TE) IRQ blocks from "mdp_phys".
 				There should be one entry per INTF instance with
 				a zero value for INTFs without TE IRQ block.
+- qcom,sde-emulated-env:	Boolean property to indicate if the MDSS is running in an
+				emulated environment.
 - qcom,sde-off:			SDE offset from "mdp_phys" defined in reg property.
 - qcom,sde-cdm-off:	 	Array of offset addresses for the available
 				cdm blocks. These offsets will be calculated from
@@ -356,6 +358,7 @@ Optional properties:
 				corresponding DSPP base.
 - qcom,sde-dspp-rc-size:	A u32 value indicating the RC block address range.
 - qcom,sde-dspp-rc-mem-size:	A u32 value indicating the RC block shared memory size.
+- qcom,sde-dspp-rc-min-region-width:	A u32 value indicating the RC block minimum region width.
 - qcom,sde-dspp-spr-off:    Array of u32 offsets indicate the SPR block offsets from the
                 corresponding DSPP block offset as base.
 - qcom,sde-dspp-spr-size:    A u32 value indicating the SPR block register address range
@@ -468,27 +471,39 @@ Optional properties:
 - qcom,sde-downscaling-prefill-lines:	A u32 value indicates the latency of downscaling in lines.
 - qcom,sde-max-per-pipe-bw-kbps:	Array of u32 value indicates the max per pipe bandwidth in Kbps.
 - qcom,sde-amortizable-threshold:	This value indicates the min for traffic shaping in lines.
-- qcom,sde-vbif-qos-rt-remap:	This array is used to program vbif qos remapper register
-				priority for realtime clients.
-- qcom,sde-vbif-qos-nrt-remap:	This array is used to program vbif qos remapper register
-				priority for non-realtime clients.
-- qcom,sde-vbif-qos-cwb-remap:	This array is used to program vbif qos remapper register
-				priority for concurrent writeback clients.
-- qcom,sde-vbif-qos-lutdma-remap:	This array is used to program vbif qos remapper register
-				priority for lutdma client.
-- qcom,sde-qos-refresh-rates:	A u32 array indicates danger, safe and creq luts
+- qcom,sde-vbif-qos-rt-remap:	This u32 array is used to program vbif qos remapper register
+				priority for realtime clients. First 8 entries are for rp_remap and
+				the next 8 entries are for lvl_remap.
+- qcom,sde-vbif-qos-nrt-remap:	This u32 array is used to program vbif qos remapper register
+				priority for non-realtime clients. First 8 entries are for rp_remap and
+				the next 8 entries are for lvl_remap.
+- qcom,sde-vbif-qos-cwb-remap:	This u32 array is used to program vbif qos remapper register
+				priority for concurrent writeback clients. First 8 entries are
+				for rp_remap and the next 8 entries are for lvl_remap.
+- qcom,sde-vbif-qos-lutdma-remap:	This u32 array is used to program vbif qos remapper register
+				priority for lutdma client. First 8 entries are for rp_remap and
+				the next 8 entries are for lvl_remap.
+- qcom,sde-vbif-qos-cnoc-remap:	This u32 array is used to program vbif qos remapper register
+				priority for cnoc clients. First 8 entries are for rp_remap and
+				the next 8 entries are for lvl_remap.
+- qcom,sde-vbif-qos-offline-wb-remap:	This u32 array is used to program vbif qos remapper register
+				priority for offline-wb clients. First 8 entries are for rp_remap
+				and the next 8 entries are for lvl_remap.
+- qcom,sde-qos-refresh-rates:	This u32 array indicates danger, safe and creq luts
 				qos configuration for different refresh rates.
-- qcom,sde-danger-lut:		A u32 array of 7 cell property, with a format of
-				<linear, tile, nrt, cwb-linear, cwb-tile, inline, inline-restricted>,
-				indicating the danger luts on sspp and wb.
-- qcom,sde-safe-lut:		A u32 array of 7 cell property, with a format of
-				<linear, tile, nrt, cwb-linear, cwb-tile, inline, inline-restricted>,
-				indicating the safe luts on sspp and wb.
-- qcom,sde-creq-lut:		A u64 array of 14 cell property, with a format of
-				<lut hi, lut lo> for each entry, first 7 u64 cells for all qos cases from
-				<linear, tile, nrt, cwb-linear, cwb-tile, inline, inline-restricted>,
-				in qseed disabled case, followed by next 7 u64 cells with same data for
-				qseed enabled case, with of-node count based on the qos refresh rates count.
+- qcom,sde-danger-lut:		This u32 array of 16 cell property, with a format of
+				<portrait-panel, landscape-panel> for each entry,
+				<linear, tile, nrt, cwb-linear, cwb-tile, inline, inline-restricted,
+				offline-wb>, indicating the danger luts on sspp and wb.
+- qcom,sde-safe-lut:		This u32 array of 16 cell property, with a format of
+				<portrait-panel, landscape-panel> for each entry,
+				<linear, tile, nrt, cwb-linear, cwb-tile, inline, inline-restricted,
+				offline-wb>, indicating the safe luts on sspp and wb.
+- qcom,sde-creq-lut:		This u64 array of 16 cell property, with a format of
+				<lut hi, lut lo, lut hi wiht-qseed, lut lo with-qseed> for each
+				entry, for qos cases from <linear, tile, nrt, cwb-linear, cwb-tile,
+				inline, inline-restricted, offline-wb>, with of-node count based
+				on the qos refresh rates count.
 - qcom,sde-cdp-setting:		Array of 2 cell property, with a format of
 				<read enable, write enable> for cdp use cases in
 				order of <real_time>, and <non_real_time>.
@@ -640,6 +655,7 @@ Example:
     #power-domain-cells = <0>;
 
     qcom,sde-hw-version = <0x70000000>;
+    qcom,sde-emulated-env;
     qcom,sde-off = <0x1000>;
     qcom,sde-ctl-off = <0x00002000 0x00002200 0x00002400
 		     0x00002600 0x00002800>;
@@ -658,6 +674,7 @@ Example:
     qcom,sde-dspp-rc-version = <0x00010000>;
     qcom,sde-dspp-rc-off = <0x15800 0x14c00>;
     qcom,sde-dspp-rc-size = <0x100>;
+    qcom,sde-dspp-rc-min-region-width = <20>;
     qcom,sde-dspp-spr-off = <0x15400 0x14400>;
     qcom,sde-dspp-spr-size = <0x200>;
     qcom,sde-dspp-spr-version = <0x00010000>:
@@ -726,7 +743,7 @@ Example:
     qcom,sde-mixer-blendstages = <0x7>;
     qcom,sde-dsc-linewidth = <2048>;
     qcom,sde-highest-bank-bit = <0x7 0x2>;
-    qcom,sde-ubwc-version = <0x100>;
+    qcom,sde-ubwc-version = <0x10000000>;
     qcom,sde-ubwc-static = <0x100>;
     qcom,sde-ubwc-swizzle = <0>;
     qcom,sde-ubwc-bw-calc-version = <0x1>;
@@ -866,10 +883,12 @@ Example:
 
     qcom,sde-ib-bw-vote = <2500000 0 800000>;
 
-    qcom,sde-vbif-qos-rt-remap = <3 3 4 4 5 5 6 6>;
-    qcom,sde-vbif-qos-nrt-remap = <3 3 3 3 3 3 3 3>;
-    qcom,sde-vbif-qos-cwb-remap = <3 3 4 4 5 5 6 3>;
-    qcom,sde-vbif-qos-lutdma-remap = <3 3 3 3 4 4 4 4>;
+    qcom,sde-vbif-qos-rt-remap = <3 3 4 4 5 5 6 6 3 3 4 4 5 5 6 6>;
+    qcom,sde-vbif-qos-nrt-remap = <3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3>;
+    qcom,sde-vbif-qos-cwb-remap = <3 3 4 4 5 5 6 3 3 3 4 4 5 5 6 3>;
+    qcom,sde-vbif-qos-lutdma-remap = <3 3 3 3 4 4 4 4 3 3 3 3 4 4 4 4>;
+    qcom,sde-vbif-qos-offline-wb-remap = <3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3>;
+    qcom,sde-vbif-qos-cnoc-remap = <3 3 4 4 5 5 5 5 3 3 3 3 3 3 3 3>;
 
     qcom,sde-reg-dma-off = <0 0x400>;
     qcom,sde-reg-dma-id = <0 1>;
