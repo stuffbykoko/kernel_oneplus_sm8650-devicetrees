@@ -28,6 +28,10 @@ ifeq ($(CONFIG_ARCH_SA8195), y)
 dtbo-y += gpu/sa8195p-gpu.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_MONACO), y)
+dtbo-y += gpu/monaco-gpu.dtbo
+endif
+
 always-y    := $(dtb-y) $(dtbo-y)
 subdir-y    := $(dts-dirs)
 clean-files    := *.dtb *.dtbo
