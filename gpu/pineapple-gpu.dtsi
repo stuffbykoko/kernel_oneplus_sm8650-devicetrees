@@ -14,10 +14,12 @@
 
 	clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
 		<&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
-		<&gpucc GPU_CC_AHB_CLK>;
+		<&gpucc GPU_CC_AHB_CLK>,
+		<&aoss_qmp QDSS_CLK>;
 	clock-names = "gcc_gpu_memnoc_gfx",
 			"gcc_gpu_snoc_dvm_gfx",
-			"gpu_cc_ahb";
+			"gpu_cc_ahb",
+			"apb_pclk";
 
 	qcom,gpu-model = "Adreno750";
 
@@ -73,8 +75,10 @@
 			qcom,level = <RPMH_REGULATOR_LEVEL_NOM>;
 
 			qcom,bus-freq = <9>;
-			qcom,bus-min = <6>;
+			qcom,bus-min = <9>;
 			qcom,bus-max = <9>;
+
+			qcom,acd-level = <0x882d5ffd>;
 		};
 		/* SVS_L2 */
 		qcom,gpu-pwrlevel@1 {
@@ -83,9 +87,10 @@
 			qcom,level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
 
 			qcom,bus-freq = <7>;
-			qcom,bus-min = <6>;
+			qcom,bus-min = <5>;
 			qcom,bus-max = <9>;
 
+			qcom,acd-level = <0x882d5ffd>;
 		};
 		/* SVS_L1 */
 		qcom,gpu-pwrlevel@2 {
@@ -93,10 +98,11 @@
 			qcom,gpu-freq = <680000000>;
 			qcom,level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
 
-			qcom,bus-freq = <6>;
+			qcom,bus-freq = <7>;
 			qcom,bus-min = <5>;
 			qcom,bus-max = <9>;
 
+			qcom,acd-level = <0xa82d5ffd>;
 		};
 		/* SVS */
 		qcom,gpu-pwrlevel@3 {
@@ -104,10 +110,11 @@
 			qcom,gpu-freq = <578000000>;
 			qcom,level = <RPMH_REGULATOR_LEVEL_SVS>;
 
-			qcom,bus-freq = <3>;
-			qcom,bus-min = <2>;
+			qcom,bus-freq = <5>;
+			qcom,bus-min = <3>;
 			qcom,bus-max = <7>;
 
+			qcom,acd-level = <0x882e5ffd>;
 		};
 		/* Low_SVS */
 		qcom,gpu-pwrlevel@4 {
@@ -115,10 +122,11 @@
 			qcom,gpu-freq = <422000000>;
 			qcom,level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
 
-			qcom,bus-freq = <3>;
-			qcom,bus-min = <1>;
-			qcom,bus-max = <4>;
+			qcom,bus-freq = <5>;
+			qcom,bus-min = <3>;
+			qcom,bus-max = <7>;
 
+			qcom,acd-level = <0xc02b5ffd>;
 		};
 		/* Low_SVS_D1 */
 		qcom,gpu-pwrlevel@5 {
@@ -128,7 +136,9 @@
 
 			qcom,bus-freq = <1>;
 			qcom,bus-min = <1>;
-			qcom,bus-max = <3>;
+			qcom,bus-max = <4>;
+
+			qcom,acd-level = <0xc02e5ffd>;
 		};
 	};
 
@@ -237,5 +247,63 @@
 		qcom,iommu-dma = "disabled";
 
 		qcom,ipc-core = <0x00400000 0x100000>;
+
+		mboxes = <&qmp_aop 0>;
+		mbox-names = "aop";
+	};
+
+	coresight_cx_dgbc: qcom,gpu-coresight-cx {
+		compatible = "qcom,gpu-coresight-cx";
+
+		coresight-name = "coresight-gfx-cx";
+		coresight-atid = <52>;
+
+		out-ports {
+			port {
+				cx_dbgc_out_funnel_gfx: endpoint {
+					remote-endpoint =
+					  <&funnel_gfx_in_cx_dbgc>;
+				};
+			};
+		};
+	};
+
+	coresight_gx_dgbc: qcom,gpu-coresight-gx {
+		compatible = "qcom,gpu-coresight-gx";
+
+		coresight-name = "coresight-gfx";
+		coresight-atid = <53>;
+
+		out-ports {
+			port {
+				gx_dbgc_out_funnel_gfx: endpoint {
+					remote-endpoint =
+					  <&funnel_gfx_in_gx_dbgc>;
+				};
+			};
+		};
+	};
+};
+
+&funnel_gfx {
+	in-ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@0 {
+			reg = <0>;
+			funnel_gfx_in_gx_dbgc: endpoint {
+			remote-endpoint =
+				<&gx_dbgc_out_funnel_gfx>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+			funnel_gfx_in_cx_dbgc: endpoint {
+			remote-endpoint =
+				<&cx_dbgc_out_funnel_gfx>;
+			};
+		};
 	};
 };
