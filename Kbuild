@@ -37,6 +37,12 @@ ifeq ($(CONFIG_ARCH_LEMANS), y)
 dtbo-y += gpu/lemans-gpu.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_KONA), y)
+dtbo-y += gpu/kona-gpu.dtbo \
+		gpu/kona-v2-gpu.dtbo \
+		gpu/kona-v2.1-gpu.dtbo
+endif
+
 always-y    := $(dtb-y) $(dtbo-y)
 subdir-y    := $(dts-dirs)
 clean-files    := *.dtb *.dtbo
