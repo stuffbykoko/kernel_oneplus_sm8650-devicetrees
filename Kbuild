@@ -39,11 +39,16 @@ endif
 ifeq ($(CONFIG_QTI_QUIN_GVM),y)
 dtbo-y += sa8155p-vm-cnss.dtbo
 dtbo-y += sa8195p-vm-cnss.dtbo
+dtbo-y += sa8295p-vm-cnss.dtbo
 dtbo-y += direwolf-vm-dual-cnss.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_SA525),y)
 dtbo-y += sa525m-cnss.dtbo
+endif
+
+ifeq ($(CONFIG_ARCH_KONA),y)
+dtbo-y += kona-iot-vc-cnss.dtbo
 endif
 
 always-y	:= $(dtb-y) $(dtbo-y)
