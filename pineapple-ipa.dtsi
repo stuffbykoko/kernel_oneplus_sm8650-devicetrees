@@ -3,6 +3,7 @@
 &ipa_hw {
         qcom,interconnect,num-cases = <5>;
         qcom,interconnect,num-paths = <3>;
+        qcom,ipa-wdi-opt-dpath;
         interconnects = <&aggre2_noc MASTER_IPA &gem_noc SLAVE_LLCC>,
                 <&mc_virt MASTER_LLCC &mc_virt SLAVE_EBI1>,
                 <&gem_noc MASTER_APPSS_PROC &cnoc_main SLAVE_IPA_CFG>;
@@ -29,6 +30,9 @@
 
         qcom,bus-vector-names = "MIN", "SVS2", "SVS", "NOMINAL",
                 "TURBO";
+
+        /* Low Latency pipe alloc factor */
+        qcom,ipa-gen-rx-ll-pool-sz-factor = <1>;
 };
 
 &ipa_smmu_ap {
