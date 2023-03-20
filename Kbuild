@@ -10,6 +10,7 @@ endif
 
 ifeq ($(CONFIG_ARCH_PINEAPPLE), y)
 dtbo-y += pineapple-vidc.dtbo
+dtbo-y += pineapple-vidc-v2.dtbo
 endif
 
 always-y    := $(dtb-y) $(dtbo-y)
