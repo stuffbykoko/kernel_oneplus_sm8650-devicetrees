@@ -896,7 +896,7 @@
 			<&camcc CAM_CC_CSIPHY0_CLK>,
 			<&camcc CAM_CC_CSI0PHYTIMER_CLK_SRC>,
 			<&camcc CAM_CC_CSI0PHYTIMER_CLK>;
-		src-clock-name = "csi0phytimer_clk_src";
+		src-clock-name = "cphy_rx_clk_src";
 		clock-cntl-level = "lowsvs", "nominal";
 		clock-rates =
 			<400000000 0 400000000 0>,
@@ -929,7 +929,7 @@
 			<&camcc CAM_CC_CSIPHY1_CLK>,
 			<&camcc CAM_CC_CSI1PHYTIMER_CLK_SRC>,
 			<&camcc CAM_CC_CSI1PHYTIMER_CLK>;
-		src-clock-name = "csi1phytimer_clk_src";
+		src-clock-name = "cphy_rx_clk_src";
 		clock-cntl-level = "lowsvs", "nominal";
 		clock-rates =
 			<400000000 0 400000000 0>,
@@ -962,7 +962,7 @@
 			<&camcc CAM_CC_CSIPHY2_CLK>,
 			<&camcc CAM_CC_CSI2PHYTIMER_CLK_SRC>,
 			<&camcc CAM_CC_CSI2PHYTIMER_CLK>;
-		src-clock-name = "csi2phytimer_clk_src";
+		src-clock-name = "cphy_rx_clk_src";
 		clock-cntl-level = "lowsvs", "nominal";
 		clock-rates =
 			<400000000 0 400000000 0>,
@@ -995,7 +995,7 @@
 			<&camcc CAM_CC_CSIPHY3_CLK>,
 			<&camcc CAM_CC_CSI3PHYTIMER_CLK_SRC>,
 			<&camcc CAM_CC_CSI3PHYTIMER_CLK>;
-		src-clock-name = "csi3phytimer_clk_src";
+		src-clock-name = "cphy_rx_clk_src";
 		clock-cntl-level = "lowsvs", "nominal";
 		clock-rates =
 			<400000000 0 400000000 0>,
@@ -1028,7 +1028,7 @@
 			<&camcc CAM_CC_CSIPHY4_CLK>,
 			<&camcc CAM_CC_CSI4PHYTIMER_CLK_SRC>,
 			<&camcc CAM_CC_CSI4PHYTIMER_CLK>;
-		src-clock-name = "csi4phytimer_clk_src";
+		src-clock-name = "cphy_rx_clk_src";
 		clock-cntl-level = "lowsvs", "nominal";
 		clock-rates =
 			<400000000 0 400000000 0>,
@@ -1061,7 +1061,7 @@
 			<&camcc CAM_CC_CSIPHY5_CLK>,
 			<&camcc CAM_CC_CSI5PHYTIMER_CLK_SRC>,
 			<&camcc CAM_CC_CSI5PHYTIMER_CLK>;
-		src-clock-name = "csi5phytimer_clk_src";
+		src-clock-name = "cphy_rx_clk_src";
 		clock-cntl-level = "lowsvs", "nominal";
 		clock-rates =
 			<400000000 0 400000000 0>,
@@ -1517,11 +1517,12 @@
 		compatible = "qcom,cam-cpas";
 		label = "cpas";
 		arch-compat = "cpas_top";
-		reg-names = "cam_cpas_top", "cam_camnoc", "cam_rpmh";
+		reg-names = "cam_cpas_top", "cam_camnoc", "cam_rpmh", "cam_cesta";
 		reg = <0xac13000 0x1000>,
 			<0xac19000 0xac80>,
-			<0xbbf0000 0x1f00>;
-		reg-cam-base = <0x13000 0x19000 0x0bbf0000>;
+			<0xbbf0000 0x1f00>,
+			<0xadd7000 0x5000>;
+		reg-cam-base = <0x13000 0x19000 0x0bbf0000 0xadd7000>;
 		interrupt-names = "cpas_camnoc";
 		interrupts = <GIC_SPI 459 IRQ_TYPE_EDGE_RISING>;
 		camnoc-axi-min-ib-bw = <3000000000>;
@@ -1624,7 +1625,7 @@
 		sys-cache-names = "small-1", "large-1";
 		sys-cache-uids = <34 38>;
 		enable-smart-qos;
-		enable-cam-drv = <(CAM_DDR_DRV)>;
+		enable-cam-drv = <(CAM_DDR_DRV | CAM_CLK_DRV)>;
 		rt-wr-priority-min = <4>;
 		rt-wr-priority-max = <5>;
 		rt-wr-priority-clamp = <6>;
