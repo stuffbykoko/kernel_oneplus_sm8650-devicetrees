@@ -2,6 +2,7 @@
 ifeq ($(CONFIG_ARCH_PINEAPPLE), y)
 dtbo-y += pineapple/pineapple-mmrm.dtbo
 dtbo-y += pineapple/pineapple-mmrm-test.dtbo
+dtbo-y += pineapple/pineapple-mmrm-test-v2.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_KALAMA), y)
