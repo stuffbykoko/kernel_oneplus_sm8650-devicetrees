@@ -53,6 +53,11 @@ ifeq ($(CONFIG_ARCH_BLAIR), y)
 dtbo-y += gpu/blair-gpu.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_TRINKET), y)
+dtbo-y += gpu/trinket-gpu.dtbo \
+		gpu/trinketp-gpu.dtbo
+endif
+
 always-y    := $(dtb-y) $(dtbo-y)
 subdir-y    := $(dts-dirs)
 clean-files    := *.dtb *.dtbo
