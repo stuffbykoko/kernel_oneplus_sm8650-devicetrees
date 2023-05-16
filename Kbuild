@@ -44,6 +44,10 @@ dtbo-y += gpu/kona-gpu.dtbo \
 		gpu/kona-v2.1-gpu.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_BLAIR), y)
+dtbo-y += gpu/blair-gpu.dtbo
+endif
+
 always-y    := $(dtb-y) $(dtbo-y)
 subdir-y    := $(dts-dirs)
 clean-files    := *.dtb *.dtbo
