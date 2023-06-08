@@ -30,6 +30,10 @@ ifeq ($(CONFIG_ARCH_SA8195), y)
 dtbo-y += gpu/sa8195p-gpu.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_SA6155), y)
+dtbo-y += gpu/sa6155p-gpu.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_MONACO), y)
 dtbo-y += gpu/monaco-gpu.dtbo
 endif
