@@ -35,7 +35,8 @@ dtbo-y += gpu/monaco-gpu.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_LEMANS), y)
-dtbo-y += gpu/lemans-gpu.dtbo
+dtbo-y += gpu/lemans-gpu.dtbo \
+		gpu/lemans-gpu-ivi-adas-star.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_KONA), y)
