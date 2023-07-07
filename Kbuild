@@ -12,6 +12,15 @@ dtbo-y += st/pineapple-nfc.dtbo \
           st/pineapple-nfc-cdp.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_BLAIR),y)
+dtbo-y += nxp/blair-nfc.dtbo \
+          nxp/blair-nfc-atp.dtbo \
+          nxp/blair-nfc-cdp.dtbo \
+          nxp/blair-nfc-mtp.dtbo \
+          nxp/blair-nfc-qrd.dtbo
+
+endif
+
 always-y	:= $(dtb-y) $(dtbo-y)
 subdir-y	:= $(dts-dirs)
 clean-files	:= *.dtb *.dtbo
