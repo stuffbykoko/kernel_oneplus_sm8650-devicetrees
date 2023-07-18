@@ -190,7 +190,7 @@
 
 				qcom,bus-freq = <1>;
 				qcom,bus-min = <1>;
-				qcom,bus-max = <1>;
+				qcom,bus-max = <3>;
 			};
 		};
 
@@ -351,7 +351,7 @@
 
 				qcom,bus-freq = <1>;
 				qcom,bus-min = <1>;
-				qcom,bus-max = <1>;
+				qcom,bus-max = <3>;
 			};
 		};
 
@@ -527,7 +527,7 @@
 
 				qcom,bus-freq = <1>;
 				qcom,bus-min = <1>;
-				qcom,bus-max = <1>;
+				qcom,bus-max = <3>;
 			};
 		};
 
@@ -675,7 +675,7 @@
 
 				qcom,bus-freq = <1>;
 				qcom,bus-min = <1>;
-				qcom,bus-max = <1>;
+				qcom,bus-max = <3>;
 			};
 		};
 	};
