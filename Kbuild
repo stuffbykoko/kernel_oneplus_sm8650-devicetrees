@@ -30,18 +30,27 @@ ifeq ($(CONFIG_ARCH_SA8195), y)
 dtbo-y += gpu/sa8195p-gpu.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_SA6155), y)
+dtbo-y += gpu/sa6155p-gpu.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_MONACO), y)
 dtbo-y += gpu/monaco-gpu.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_LEMANS), y)
-dtbo-y += gpu/lemans-gpu.dtbo
+dtbo-y += gpu/lemans-gpu.dtbo \
+		gpu/lemans-gpu-ivi-adas-star.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_KONA), y)
 dtbo-y += gpu/kona-gpu.dtbo \
 		gpu/kona-v2-gpu.dtbo \
 		gpu/kona-v2.1-gpu.dtbo
+endif
+
+ifeq ($(CONFIG_ARCH_BLAIR), y)
+dtbo-y += gpu/blair-gpu.dtbo
 endif
 
 always-y    := $(dtb-y) $(dtbo-y)
