@@ -13,6 +13,10 @@ dtbo-y += pineapple-vidc.dtbo
 dtbo-y += pineapple-vidc-v2.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_CLIFFS), y)
+dtbo-y += cliffs-vidc.dtbo
+endif
+
 always-y    := $(dtb-y) $(dtbo-y)
 subdir-y    := $(dts-dirs)
 clean-files    := *.dtb *.dtbo
