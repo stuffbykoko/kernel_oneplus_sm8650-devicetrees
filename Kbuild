@@ -10,6 +10,10 @@ ifeq ($(CONFIG_ARCH_BLAIR), y)
 dtbo-y += blair-dsp.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_HOLI), y)
+dtbo-y += holi-dsp.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_CLIFFS), y)
 dtbo-y += cliffs-dsp.dtbo
 endif
