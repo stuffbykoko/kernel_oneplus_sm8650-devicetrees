@@ -21,6 +21,11 @@ dtbo-y += nxp/blair-nfc.dtbo \
 
 endif
 
+ifeq ($(CONFIG_ARCH_HOLI),y)
+dtbo-y += nxp/holi-nfc.dtbo \
+          nxp/holi-pm6125-nfc.dtbo
+endif
+
 always-y	:= $(dtb-y) $(dtbo-y)
 subdir-y	:= $(dts-dirs)
 clean-files	:= *.dtb *.dtbo
