@@ -1,5 +1,7 @@
 ifeq ($(CONFIG_ARCH_PINEAPPLE), y)
+ifneq ($(CONFIG_ARCH_QTI_VM), y)
 dtbo-y += pineapple-dsp.dtbo
+endif
 endif
 
 ifeq ($(CONFIG_ARCH_QTI_VM), y)
