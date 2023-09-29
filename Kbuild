@@ -1,3 +1,7 @@
+ifeq ($(CONFIG_ARCH_MONACO_AUTO),y)
+dtbo-y += monaco_auto-cnss.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_WAIPIO),y)
 dtbo-y += waipio-cnss.dtbo
 dtbo-y += waipio-kiwi-cnss.dtbo
