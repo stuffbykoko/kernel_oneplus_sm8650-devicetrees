@@ -10,6 +10,10 @@ ifeq ($(CONFIG_ARCH_BLAIR),y)
 dtbo-y += blair-ipa.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_HOLI),y)
+dtbo-y += holi-ipa.dtbo
+endif
+
 always-y	:= $(dtb-y) $(dtbo-y)
 subdir-y	:= $(dts-dirs)
 clean-files	:= *.dtb *.dtbo
