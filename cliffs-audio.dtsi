@@ -40,7 +40,6 @@
 
 		audio_prm: q6prm {
 			compatible = "qcom,audio_prm";
-			qcom,sleep-api-supported = <1>;
 			reg = <GPR_SVC_ASM>;
 		};
 	};
@@ -140,11 +139,6 @@
 			swr0: wsa_swr_master {
 			};
 		};
-
-		wsa2_macro: wsa2-macro@6AA0000 {
-			swr3: wsa2_swr_master {
-			};
-		};
 	};
 
 	pineapple_snd: sound {
@@ -158,7 +152,6 @@
 
 		clock-names = "lpass_audio_hw_vote";
 		clocks = <&lpass_audio_hw_vote 0>;
-		wcd939x-i2c-handle = <&wcd_usbss>;
 	};
 };
 
@@ -166,6 +159,5 @@
 	swr0 = "/soc/spf_core_platform/lpass-cdc/wsa-macro@6B00000/wsa_swr_master";
 	swr1 = "/soc/spf_core_platform/lpass-cdc/rx-macro@6AC0000/rx_swr_master";
 	swr2 = "/soc/spf_core_platform/lpass-cdc/va-macro@6D44000/va_swr_master";
-	swr3 = "/soc/spf_core_platform/lpass-cdc/wsa2-macro@6AA0000/wsa2_swr_master";
 };
 
