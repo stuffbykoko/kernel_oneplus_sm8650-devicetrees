@@ -66,6 +66,10 @@ ifeq ($(CONFIG_ARCH_QCS405), y)
 dtbo-y += gpu/qcs405-gpu.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_CLIFFS), y)
+dtbo-y += gpu/cliffs-gpu.dtbo
+endif
+
 always-y    := $(dtb-y) $(dtbo-y)
 subdir-y    := $(dts-dirs)
 clean-files    := *.dtb *.dtbo
