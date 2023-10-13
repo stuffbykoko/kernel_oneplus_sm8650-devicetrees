@@ -42,7 +42,14 @@ dtbo-$(CONFIG_ARCH_KALAMA) += display/trustedvm-kalama-sde-display-mtp-overlay.d
 endif
 
 ifneq ($(CONFIG_ARCH_QTI_VM), y)
-dtbo-$(CONFIG_ARCH_CLIFFS) += display/cliffs-sde.dtbo
+dtbo-$(CONFIG_ARCH_CLIFFS) += display/cliffs-sde.dtbo \
+		display/cliffs-sde-display-rumi-overlay.dtbo \
+		display/cliffs-sde-display-cdp-overlay.dtbo \
+		display/cliffs-sde-display-rcm-overlay.dtbo \
+		display/cliffs-sde-display-mtp-overlay.dtbo \
+		display/cliffs-sde-display-mtp-wcd9395-overlay.dtbo \
+		display/cliffs-sde-display-qrd-overlay.dtbo \
+		display/cliffs-sde-display-atp-overlay.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_SA8155), y)
