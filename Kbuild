@@ -22,6 +22,7 @@ endif
 ifeq ($(CONFIG_ARCH_HOLI),y)
 dtbo-y += holi-cnss.dtbo
 dtbo-y += holi-pm6125-cnss.dtbo
+dtbo-y += holi-pm6125-nopmi-cnss.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_CROW),y)
