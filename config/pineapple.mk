@@ -5,3 +5,5 @@ dtbo-$(CONFIG_ARCH_PINEAPPLE)	+= pineapple-camera-v2.dtbo \
 									pineapple-camera-sensor-hdk.dtbo \
 									pineapple-camera-sensor-qrd.dtbo
 dtbo-$(CONFIG_ARCH_CLIFFS)	+= cliffs-camera.dtbo
+dtbo-$(CONFIG_ARCH_CLIFFS)	+= cliffs-camera-sensor-cdp.dtbo \
+								cliffs-camera-sensor-mtp.dtbo
