@@ -21,6 +21,7 @@ endif
 
 ifeq ($(CONFIG_ARCH_HOLI),y)
 dtbo-y += holi-cnss.dtbo
+dtbo-y += holi-pm6125-cnss.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_CROW),y)
@@ -54,7 +55,9 @@ dtbo-y += monaco-standalone-cnss.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_LEMANS),y)
+ifneq ($(CONFIG_ARCH_QTI_VM),y)
 dtbo-y += lemans-cnss.dtbo
+endif
 endif
 
 ifeq ($(CONFIG_QTI_QUIN_GVM),y)
