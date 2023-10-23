@@ -1,45 +1,30 @@
 #include "cliffs-audio-overlay.dtsi"
 
-&lpass_cdc {
-	qcom,num-macros = <4>;
-};
-
-&swr_dmic_01 {
-	status = "disabled";
-};
-
-&swr_dmic_02 {
-	status = "disabled";
-};
-
-&swr_dmic_03 {
-	status = "disabled";
-};
-
-&swr_dmic_04 {
-	status = "disabled";
-};
-
 &fm_i2s1_gpios {
 	status = "ok";
 };
 
+&wsa_macro {
+	qcom,wsa-bat-cfgs = <2>, <2>;
+};
+
 &pineapple_snd {
-	qcom,model = "cliffs-cdp-snd-card";
+	qcom,sec-mi2s-gpios = <&fm_i2s1_gpios>;
+	qcom,model = "cliffs-mtp-wcd9395-snd-card";
 	qcom,audio-routing =
 		"AMIC2", "Analog Mic2",
 		"AMIC2", "MIC BIAS2",
 		"TX DMIC0", "Digital Mic0",
-		"TX DMIC0", "MIC BIAS1",
+		"TX DMIC0", "MIC BIAS3",
 		"TX DMIC1", "Digital Mic1",
-		"TX DMIC1", "MIC BIAS1",
+		"TX DMIC1", "MIC BIAS3",
 		"TX DMIC2", "Digital Mic2",
-		"TX DMIC2", "MIC BIAS3",
+		"TX DMIC2", "MIC BIAS1",
 		"TX DMIC3", "Digital Mic3",
-		"TX DMIC3", "MIC BIAS3",
+		"TX DMIC3", "MIC BIAS1",
 		"IN1_HPHL", "HPHL_OUT",
 		"IN2_HPHR", "HPHR_OUT",
-		"IN3_EAR",  "AUX_OUT",
+		"IN3_EAR", "AUX_OUT",
 		"WSA SRC0_INP", "SRC0",
 		"WSA_TX DEC0_INP", "TX DEC0 MUX",
 		"WSA_TX DEC1_INP", "TX DEC1 MUX",
@@ -59,18 +44,24 @@
 		"VA DMIC1", "Digital Mic1",
 		"VA DMIC2", "Digital Mic2",
 		"VA DMIC3", "Digital Mic3",
-		"VA DMIC0", "VA MIC BIAS1",
-		"VA DMIC1", "VA MIC BIAS1",
-		"VA DMIC2", "VA MIC BIAS3",
-		"VA DMIC3", "VA MIC BIAS3";
-	qcom,cdc-dmic67-gpios = <&cdc_dmic67_gpios>;
-	asoc-codec  = <&stub_codec>, <&lpass_cdc>,
-			<&wcd939x_codec>,
-			<&wsa884x_0220>, <&wsa884x_0221>;
-	asoc-codec-names = "msm-stub-codec.1", "lpass-cdc",
-			"wcd939x_codec",
-			"wsa-codec1", "wsa-codec2";
-	qcom,wsa-max-devs = <2>;
-	qcom,sec-mi2s-gpios = <&fm_i2s1_gpios>;
-	qcom,usbss-hsj-connect-enabled;
+		"VA DMIC0", "VA MIC BIAS3",
+		"VA DMIC1", "VA MIC BIAS3",
+		"VA DMIC2", "VA MIC BIAS1",
+		"VA DMIC3", "VA MIC BIAS1";
+		qcom,msm-mbhc-usbc-audio-supported = <1>;
+		qcom,msm-mbhc-hphl-swh = <0>;
+		qcom,msm-mbhc-gnd-swh = <0>;
+};
+
+&wcd939x_codec {
+	qcom,usbcss-hs-xtalk-config = <2>;
+	qcom,usbcss-hs-rdson = <600>;
+	qcom,usbcss-hs-r2 = <7550>;
+	qcom,usbcss-hs-r3 = <1>;
+	qcom,usbcss-hs-r4 = <330>;
+	qcom,usbcss-hs-r5 = <5>;
+	qcom,usbcss-hs-r6 = <1>;
+	qcom,usbcss-hs-r7 = <5>;
+	qcom,usbcss-hs-lin-k-aud = <13>;
+	qcom,usbcss-hs-lin-k-gnd = <13>;
 };
