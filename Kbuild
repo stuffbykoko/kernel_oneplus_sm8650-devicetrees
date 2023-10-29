@@ -12,6 +12,13 @@ dtbo-y += st/pineapple-nfc.dtbo \
           st/pineapple-nfc-cdp.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_CLIFFS),y)
+dtbo-y += nxp/cliffs-nfc.dtbo \
+          nxp/cliffs-nfc-atp.dtbo \
+          nxp/cliffs-nfc-mtp.dtbo \
+          nxp/cliffs-nfc-qrd.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_BLAIR),y)
 dtbo-y += nxp/blair-nfc.dtbo \
           nxp/blair-nfc-atp.dtbo \
