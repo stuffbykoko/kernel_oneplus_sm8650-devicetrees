@@ -17,6 +17,9 @@ dtbo-y += nxp/cliffs-nfc.dtbo \
           nxp/cliffs-nfc-atp.dtbo \
           nxp/cliffs-nfc-mtp.dtbo \
           nxp/cliffs-nfc-qrd.dtbo
+
+dtbo-y += st/cliffs-nfc.dtbo \
+          st/cliffs-nfc-mtp.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_BLAIR),y)
