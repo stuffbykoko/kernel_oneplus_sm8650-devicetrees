@@ -20,6 +20,10 @@ ifeq ($(CONFIG_ARCH_CLIFFS), y)
 dtbo-y += cliffs-dsp.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_PITTI), y)
+dtbo-y += pitti-dsp.dtbo
+endif
+
 always-y	:= $(dtb-y) $(dtbo-y)
 subdir-y	:= $(dts-dirs)
 clean-files	:= *.dtb *.dtbo
