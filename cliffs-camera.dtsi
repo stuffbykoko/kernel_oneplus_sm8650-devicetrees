@@ -290,7 +290,7 @@
 		/* MCLK2 */
 		mux {
 			pins = "gpio66";
-			function = "cam_aon_mclk2";
+			function = "cam_mclk";
 		};
 
 		config {
@@ -304,7 +304,7 @@
 		/* MCLK2 */
 		mux {
 			pins = "gpio66";
-			function = "cam_aon_mclk2";
+			function = "cam_mclk";
 		};
 
 		config {
@@ -1900,6 +1900,8 @@
 					traffic-data = <CAM_CPAS_PATH_DATA_ALL>;
 					traffic-transaction-type =
 					<CAM_CPAS_TRANSACTION_WRITE>;
+					constituent-paths =
+					<CAM_CPAS_PATH_DATA_CRE_WR_OUT>;
 					parent-node = <&level1_nrt2_wr>;
 				};
 
@@ -1929,6 +1931,8 @@
 					traffic-data = <CAM_CPAS_PATH_DATA_ALL>;
 					traffic-transaction-type =
 					<CAM_CPAS_TRANSACTION_READ>;
+					constituent-paths =
+					<CAM_CPAS_PATH_DATA_CRE_RD_IN>;
 					parent-node = <&level1_nrt3_rd>;
 				};
 
@@ -2732,10 +2736,10 @@
 		clock-rates =
 			<0 0 0 166000000 0 0 0>,
 			<0 0 0 255000000 0 0 0>,
-			<0 0 0 287000000 0 0 0>,
-			<0 0 0 337000000 0 0 0>,
-			<0 0 0 412000000 0 0 0>,
-			<0 0 0 412000000 0 0 0>;
+			<0 0 0 287500000 0 0 0>,
+			<0 0 0 337500000 0 0 0>,
+			<0 0 0 412500000 0 0 0>,
+			<0 0 0 412500000 0 0 0>;
 		clock-cntl-level = "lowsvsd1", "lowsvs", "svs", "svs_l1", "nominal",
 			"turbo";
 		nrt-device;
