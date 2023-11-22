@@ -5,6 +5,12 @@ dtbo-y += pineapple/pineapple-mmrm-test.dtbo
 dtbo-y += pineapple/pineapple-mmrm-test-v2.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_CLIFFS), y)
+dtbo-y += cliffs/cliffs-mmrm.dtbo
+dtbo-y += cliffs/cliffs-mmrm-test.dtbo
+dtbo-y += cliffs/cliffs-mmrm-test-v2.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_KALAMA), y)
 	ifneq ($(CONFIG_ARCH_QTI_VM), y)
 		dtbo-y += kalama/kalama-mmrm.dtbo
