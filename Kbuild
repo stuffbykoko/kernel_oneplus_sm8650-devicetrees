@@ -48,12 +48,17 @@ ifeq ($(CONFIG_ARCH_SA6155), y)
 dtbo-y +=  sa6155-audio.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_MONACO_AUTO), y)
+dtbo-y +=  monaco-audio.dtbo
+endif
+
 ifeq ($(CONFIG_QTI_QUIN_GVM), y)
 dtbo-y +=  direwolf-vm-la-audio.dtbo
 dtbo-y +=  lemans-vm-lv-audio.dtbo
 dtbo-y +=  lemans-vm-la-audio.dtbo
 dtbo-y +=  monaco-vm-la-audio.dtbo
 dtbo-y +=  sa8155-vm-audio.dtbo
+dtbo-y +=  sa6155-vm-audio.dtbo
 dtbo-y +=  sa8195-vm-audio.dtbo
 endif
 
