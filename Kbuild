@@ -22,6 +22,7 @@ endif
 ifeq ($(CONFIG_ARCH_HOLI),y)
 dtbo-y += holi-cnss.dtbo
 dtbo-y += holi-pm6125-cnss.dtbo
+dtbo-y += holi-pm6125-nopmi-cnss.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_CROW),y)
@@ -81,6 +82,10 @@ endif
 
 ifeq ($(CONFIG_ARCH_KONA),y)
 dtbo-y += kona-iot-vc-cnss.dtbo
+endif
+
+ifeq ($(CONFIG_ARCH_TRINKET),y)
+dtbo-y += trinket-cnss.dtbo
 endif
 
 always-y	:= $(dtb-y) $(dtbo-y)
