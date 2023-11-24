@@ -19,6 +19,9 @@ dtbo-y += nxp/cliffs-nfc.dtbo \
           nxp/cliffs-nfc-rcm.dtbo \
           nxp/cliffs-nfc-mtp.dtbo \
           nxp/cliffs-nfc-qrd.dtbo
+
+dtbo-y += st/cliffs-nfc.dtbo \
+          st/cliffs-nfc-mtp.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_BLAIR),y)
@@ -32,7 +35,8 @@ endif
 
 ifeq ($(CONFIG_ARCH_HOLI),y)
 dtbo-y += nxp/holi-nfc.dtbo \
-          nxp/holi-pm6125-nfc.dtbo
+          nxp/holi-pm6125-nfc.dtbo \
+          nxp/holi-pm6125-nopmi-nfc.dtbo
 endif
 
 always-y	:= $(dtb-y) $(dtbo-y)
