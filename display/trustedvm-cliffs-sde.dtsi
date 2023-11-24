@@ -12,7 +12,7 @@
 
 	smmu_sde_unsec: qcom,smmu_sde_unsec_cb {
 		compatible = "qcom,smmu_sde_unsec";
-		iommus = <&apps_smmu 0x1c03 0>,
+		iommus = <&apps_smmu 0x1c04 0>,
 			<&apps_smmu 0x1c06 0>;
 		qcom,iommu-dma-addr-pool = <0x00020000 0xfffe0000>;
 		qcom,iommu-faults = "non-fatal";
@@ -32,6 +32,8 @@
 		"sid_phys";
 
 	qcom,sde-vm-exclude-reg-names = "sid_phys";
+	qcom,tvm-include-reg = <0xaf20000 0x4d68>,
+					<0xaf30000 0x3fd4>;
 
 	qcom,sde-hw-version =<0xA0010000>;
 

@@ -17,9 +17,19 @@
 		clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
 		clock-names = "mdp_core_clk";
 	};
+
+	disp_rdump_memory: disp_rdump_region@d5100000 {
+		reg = <0xE3940000 0x00800000>;
+		label = "disp_rdump_region";
+	};
 };
 
 &reserved_memory {
+	splash_region: splash_region {
+		reg = <0x0 0xe3940000 0x0 0x2b00000>;
+		label = "cont_splash_region";
+	};
+
 	/*
 	 * Demura memory regions are to be commented out if
 	 * feature not in use.
@@ -94,7 +104,7 @@
 };
 
 &mdss_mdp {
-	connectors = <&sde_dsi &sde_dsi1 &smmu_sde_unsec &sde_wb1 &sde_wb2 &sde_dp>;
+	connectors = <&sde_dsi &sde_dsi1 &smmu_sde_unsec &sde_wb1 &sde_wb2 &sde_rscc &sde_dp>;
 };
 
 &dsi_vtdr6130_amoled_cmd {
