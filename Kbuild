@@ -55,6 +55,7 @@ dtbo-y += pineapplep-hdk-kiwi-cnss.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_SUN),y)
+dtbo-y += sun-kiwi-cnss.dtbo
 dtbo-y += sun-peach-cnss.dtbo
 dtbo-y += sun-peach-cnss-v8.dtbo
 endif
