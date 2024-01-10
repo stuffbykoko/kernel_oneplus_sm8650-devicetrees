@@ -33,6 +33,10 @@ ifeq ($(CONFIG_ARCH_CROW),y)
 dtbo-y += crow-cnss.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_PITTI),y)
+dtbo-y += pitti-adrastea.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_SA6155),y)
 dtbo-y += sa6155p-cnss.dtbo
 endif
