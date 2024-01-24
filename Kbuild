@@ -60,6 +60,16 @@ dtbo-$(CONFIG_ARCH_CLIFFS) += display/trustedvm-cliffs-sde-display-mtp-overlay.d
 		  display/trustedvm-cliffs-sde-display-atp-overlay.dtbo
 endif
 
+ifneq ($(CONFIG_ARCH_QTI_VM), y)
+dtbo-$(CONFIG_ARCH_PITTI) += display/pitti-sde.dtbo \
+		display/pitti-sde-display-atp-overlay.dtbo \
+		display/pitti-sde-display-idp-overlay.dtbo \
+		display/pitti-sde-display-idp-amoled-overlay.dtbo \
+		display/pitti-sde-display-idp-pmiv0104-overlay.dtbo \
+		display/pitti-sde-display-qrd-overlay.dtbo \
+		display/pitti-sde-display-rumi-overlay.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_SA8155), y)
 dtbo-y += display/sa8155-adp-star-display.dtbo
 endif
