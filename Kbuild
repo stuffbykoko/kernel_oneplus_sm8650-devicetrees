@@ -52,9 +52,12 @@ endif
 ifeq ($(CONFIG_ARCH_PINEAPPLE),y)
 dtbo-y += pineapple-kiwi-cnss.dtbo
 dtbo-y += pineapplep-hdk-kiwi-cnss.dtbo
+dtbo-y += pineapplep-aim500-kiwi-cnss.dtbo
 endif
 
 ifeq ($(CONFIG_ARCH_SUN),y)
+dtbo-y += sun-kiwi-cnss.dtbo
+dtbo-y += sun-kiwi-cnss-v8.dtbo
 dtbo-y += sun-peach-cnss.dtbo
 dtbo-y += sun-peach-cnss-v8.dtbo
 endif
@@ -82,6 +85,8 @@ dtbo-y += sa8255p-vm-cnss.dtbo
 dtbo-y += sa8295p-vm-cnss.dtbo
 dtbo-y += direwolf-vm-dual-cnss.dtbo
 dtbo-y += lemans-vm-cnss.dtbo
+dtbo-y += monaco-vm-cnss.dtbo
+dtbo-y += sa6155p-vm-cnss.dtbo
 endif
 
 
