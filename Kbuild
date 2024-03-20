@@ -61,6 +61,10 @@ dtbo-$(CONFIG_ARCH_CLIFFS) += display/trustedvm-cliffs-sde-display-mtp-overlay.d
 endif
 
 ifneq ($(CONFIG_ARCH_QTI_VM), y)
+dtbo-$(CONFIG_ARCH_VOLCANO) += display/volcano-sde.dtbo
+endif
+
+ifneq ($(CONFIG_ARCH_QTI_VM), y)
 dtbo-$(CONFIG_ARCH_PITTI) += display/pitti-sde.dtbo \
 		display/pitti-sde-display-atp-overlay.dtbo \
 		display/pitti-sde-display-idp-overlay.dtbo \
