@@ -4,10 +4,22 @@
 &soc {
 	sde_wb2: qcom,wb-display@2 {
 		compatible = "qcom,wb-display";
-		cell-index = <1>;
+		cell-index = <0>;
 		label = "wb_display2";
 		clocks = <&dispcc DISP_CC_MDSS_MDP_CLK>;
 		clock-names = "mdp_core_clk";
+	};
+
+	disp_rdump_memory: disp_rdump_region@e3940000 {
+		reg = <0xe3940000 0x2b00000>;
+		label = "disp_rdump_region";
+	};
+};
+
+&reserved_memory {
+	splash_region: splash_region {
+		reg = <0x0 0xe3940000 0x0 0x2b00000>;
+		label = "cont_splash_region";
 	};
 };
 
@@ -39,7 +51,7 @@
 };
 
 &mdss_mdp {
-	connectors = <&sde_dsi &smmu_sde_unsec &sde_wb2>;
+	connectors = <&sde_dsi &smmu_sde_unsec &sde_wb2 &sde_dp &sde_rscc>;
 };
 
 &dsi_vtdr6130_amoled_cmd {

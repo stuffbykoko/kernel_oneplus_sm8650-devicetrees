@@ -1,5 +1,9 @@
 #include "volcano-sde-display.dtsi"
 
+&sde_dp {
+	status = "disabled";
+};
+
 &dsi_vtdr6130_amoled_cmd {
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply_amoled>;
 	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
@@ -166,6 +170,10 @@
 	qcom,dsi-default-panel = <&dsi_vtdr6130_amoled_cmd>;
 };
 
+&mdss_mdp {
+	connectors = <&sde_dsi &smmu_sde_unsec &sde_wb2 &sde_rscc>;
+};
+
 &qupv3_se0_spi {
 	goodix-berlin@0 {
 		panel = <&dsi_vtdr6130_amoled_cmd
@@ -175,6 +183,8 @@
 			&dsi_vtdr6130_amoled_90hz_cmd
 			&dsi_vtdr6130_amoled_90hz_video
 			&dsi_vtdr6130_amoled_60hz_cmd
-			&dsi_vtdr6130_amoled_60hz_video>;
+			&dsi_vtdr6130_amoled_60hz_video
+			&dsi_vtdr6130_amoled_qsync_144hz_cmd
+			&dsi_vtdr6130_amoled_qsync_144hz_video>;
 	};
 };
