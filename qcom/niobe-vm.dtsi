@@ -1,5 +1,7 @@
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/clock/qcom,gcc-niobe.h>
+#include <dt-bindings/arm/msm/qti-smmu-proxy-dt-ids.h>
+#include <dt-bindings/soc/qcom,ipcc.h>
 
 / {
 	#address-cells = <0x2>;
@@ -92,7 +94,10 @@
 		 */
 		gic-irq-ranges = <101 101
 				  315 315
+				  734 734
 				  316 316>; /* PVM->SVM IRQ transfer */
+
+		iomemory-ranges = <0x0 0x405000 0x0 0x405000 0x0 0x1000 0x0>;
 
 		vm-attrs = "crash-fatal", "context-dump";
 
@@ -217,6 +222,17 @@
 				};
 			};
 
+			qrtr-shm {
+				vdevice-type = "shm-doorbell";
+				generate = "/hypervisor/qrtr-shm";
+				push-compatible = "qcom,qrtr-gunyah-gen";
+				peer-default;
+				memory {
+					qcom,label = <0x3>;
+					allocate-base;
+				};
+			};
+
 			mem-buf-message-queue-pair {
 				vdevice-type = "message-queue-pair";
 				generate = "/hypervisor/membuf-msgq-pair";
@@ -267,6 +283,24 @@
 				peer-default;
 			};
 
+			smmu-proxy-message-queue-pair {
+				vdevice-type = "message-queue-pair";
+				generate = "/hypervisor/smmu-proxy-msgq-pair";
+				message-size = <0x000000f0>;
+				queue-depth = <0x00000008>;
+				peer-default;
+				qcom,label = <0xA>;
+			};
+
+			msgqsock-msgq {
+				vdevice-type = "message-queue-pair";
+				generate = "/hypervisor/msgqsock-msgq-pair";
+				message-size = <0xf0>;
+				queue-depth = <0x8>;
+				peer = "vm-name:qcom,oemvm";
+				qcom,label = <0x3>;
+			};
+
 		};
 	};
 
@@ -298,6 +332,15 @@
 		redistributor-stride = <0x0 0x20000>;
 		reg = <0x17200000 0x10000>,     /* GICD */
 		      <0x17260000 0xC0000>;    /* GICR * 8 */
+	};
+
+	ipcc_mproc_ns1: qcom,ipcc@405000 {
+		compatible = "qcom,ipcc";
+		reg = <0x405000 0x1000>;
+		interrupts = <GIC_SPI 702 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-controller;
+		#interrupt-cells = <3>;
+		#mbox-cells = <2>;
 	};
 
 	arch_timer: timer {
@@ -392,6 +435,23 @@
 		qcom,secondary;
 	};
 
+	qti,smmu-proxy {
+		compatible = "smmu-proxy-receiver";
+	};
+
+	qti,smmu-proxy-camera-cb {
+		compatible = "smmu-proxy-cb";
+		qti,cb-id = <QTI_SMMU_PROXY_CAMERA_CB>;
+		qcom,iommu-defer-smr-config;
+		iommus = <&apps_smmu 0x1841 0x20>,
+			 <&apps_smmu 0x1821 0xA0>,
+			 <&apps_smmu 0x1902 0x0>,
+			 <&apps_smmu 0x1921 0x0>,
+			 <&apps_smmu 0x0801 0x0>,
+			 <&apps_smmu 0x19A7 0x0>;
+		dma-coherent;
+	};
+
 	qcom_smcinvoke {
 		compatible = "qcom,smcinvoke";
 	};
@@ -400,6 +460,27 @@
 		compatible = "qcom,tee-shared-memory-bridge";
 		qcom,custom-bridge-size = <64>;
 		qcom,support-hypervisor;
+	};
+
+	qrtr-gunyah {
+		compatible = "qcom,qrtr-gunyah";
+		gunyah-label = <3>;
+	};
+
+	qmsgq-gunyah {
+		compatible = "qcom,qmsgq-gh";
+		qcom,master;
+		msgq-label = <3>;
+	};
+
+	qcom,mem-buf {
+		compatible = "qcom,mem-buf";
+		qcom,mem-buf-capabilities = "consumer";
+		qcom,vmid = <45>;
+	};
+
+	qcom,mem-buf-msgq {
+		compatible = "qcom,mem-buf-msgq";
 	};
 
 	logbuf: qcom,logbuf-vendor-hooks {
@@ -411,3 +492,6 @@
 		gunyah-label = <9>;
 	};
 };
+
+#include "niobe-vm-dma-heaps.dtsi"
+#include "msm-arm-smmu-niobe-vm.dtsi"

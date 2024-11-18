@@ -144,29 +144,51 @@
 		cooling-maps {
 			pm8550ve_APC1 {
 				trip = <&pm8550ve_trip0>;
-				cooling-device = <&cdsp_sw 5 THERMAL_NO_LIMIT>;
+				cooling-device = <&APC1_pause 1 1>;
+			};
+
+			pm8550ve_gpu {
+				trip = <&pm8550ve_trip0>;
+				cooling-device = <&msm_gpu 5 THERMAL_NO_LIMIT>;
 			};
 		};
 	};
 
 	pm8550vs_c_tz {
 		cooling-maps {
-			pm8550vs_c_APC1 {
+			pm8550vs_c_cdsp {
 				trip = <&pm8550vs_c_trip0>;
-				cooling-device = <&APC1_pause 1 1>;
+				cooling-device = <&cdsp_sw 16 THERMAL_NO_LIMIT>;
 			};
 
-			pm8550vs_c_gpu {
+			pm8550vs_c_cdsp_hvx {
 				trip = <&pm8550vs_c_trip0>;
-				cooling-device = <&msm_gpu 5 THERMAL_NO_LIMIT>;
+				cooling-device = <&cdsp_sw_hvx 16 THERMAL_NO_LIMIT>;
+			};
+
+			pm8550vs_c_cdsp_hmx {
+				trip = <&pm8550vs_c_trip0>;
+				cooling-device = <&cdsp_sw_hmx 16 THERMAL_NO_LIMIT>;
 			};
 		};
 	};
 
-	cpu-0-0-0 {
+	sys-therm-1 {
 		trips {
-			fan_cpu000_config0: fan-cpu000-config0 {
-				temperature = <20000>;
+			fan_sys1_config0: fan-sys1-config0 {
+				temperature = <40000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+
+			fan_sys1_config1: fan-sys1-config1 {
+				temperature = <50000>;
+				hysteresis = <1000>;
+				type = "passive";
+			};
+
+			fan_sys1_config2: fan-sys1-config2 {
+				temperature = <60000>;
 				hysteresis = <1000>;
 				type = "passive";
 			};
@@ -174,9 +196,32 @@
 
 		cooling-maps {
 			fan_cdev_0 {
-				trip = <&fan_cpu000_config0>;
+				trip = <&fan_sys1_config0>;
+				cooling-device = <&fancontroller 30 30>;
+			};
+
+			fan_cdev_1 {
+				trip = <&fan_sys1_config1>;
 				cooling-device = <&fancontroller 50 50>;
+			};
+
+			fan_cdev_2 {
+				trip = <&fan_sys1_config2>;
+				cooling-device = <&fancontroller 60 60>;
 			};
 		};
 	};
+};
+
+&pmk8550_qpt {
+	power-domains = <&CLUSTER_PD>;
+	qcom,reg-ppid-ids = /bits/ 16 <0x19e 0x1a1 0x1aa
+			0x29e 0x2a1 0x2a4 0x2aa 0x3a1 0x3a4 0x3a7 0x3aa
+			0x3ad 0x59b 0x5a1 0x5a4 0x5aa 0x5ad 0x5a7>;
+
+	qcom,reg-ppid-names = "mv_sub_reg",
+			"mm", "dpu", "ebi", "vddq", "nsp2", "nsp1",
+			"gfx_mx", "mxc", "wlan_cx", "lv_sub_reg",
+			"gfx", "apc0", "mxa", "vdd2h", "cx", "apc1",
+			"vdd2l";
 };

@@ -1,3 +1,4 @@
+#include <dt-bindings/arm/msm/qti-smmu-proxy-dt-ids.h>
 #include <dt-bindings/clock/qcom,camcc-niobe.h>
 #include <dt-bindings/clock/qcom,dispcc0-niobe.h>
 #include <dt-bindings/clock/qcom,dispcc1-niobe.h>
@@ -27,7 +28,7 @@
 	memory { device_type = "memory"; reg = <0 0 0 0>; };
 
 	chosen: chosen {
-		bootargs = "nokaslr kpti=0 log_buf_len=256K swiotlb=noforce loop.max_part=7 pcie_ports=compat cpufreq.default_governor=performance ufshcd-core.use_mcq_mode=n loglevel=6 printk.console_no_auto_verbose=1 rcupdate.rcu_expedited=1 rcu_nocbs=0-5 kernel.panic_on_rcu_stall=1 ftrace_dump_on_oops can.stats_timer=0 firmware_class.path=/vendor/firmware_mnt/image,/vendor/firmware fw_devlink.strict=1 service_locator.enable=1 irqaffinity=0-1 kasan=off cgroup.memory=nokmem,nosocket disable_dma32=on";
+		bootargs = "nokaslr kpti=0 log_buf_len=256K swiotlb=noforce loop.max_part=7 pcie_ports=compat cpufreq.default_governor=performance loglevel=6 printk.console_no_auto_verbose=1 rcupdate.rcu_expedited=1 rcu_nocbs=0-5 kernel.panic_on_rcu_stall=1 ftrace_dump_on_oops can.stats_timer=0 firmware_class.path=/vendor/firmware_mnt/image,/vendor/firmware fw_devlink.strict=1 service_locator.enable=1 irqaffinity=0-1 kasan=off cgroup.memory=nokmem,nosocket disable_dma32=on";
 	};
 
 	reserved_memory: reserved-memory {};
@@ -685,6 +686,18 @@
 		};
 	};
 
+	pcie_crm: crm@1d01000 {
+		label = "pcie_crm";
+		compatible = "qcom,pcie-crm";
+		reg = <0x1d01000 0x3000>, <0x1d04800 0x800>, <0x1d05000 0x2000>, <0x1d04000 0x800>;
+		reg-names = "base", "crm_b", "crm_c", "crm_v";
+		interrupts = <GIC_SPI 431 IRQ_TYPE_EDGE_RISING>;
+		interrupt-names = "pcie_crm";
+		clocks = <&pcie_0_pipe_clk>;
+		qcom,hw-drv-ids = <0 1 2>;
+		qcom,sw-drv-ids = <0>;
+	};
+
 	pdc: interrupt-controller@b220000 {
 		compatible = "qcom,niobe-pdc", "qcom,pdc";
 		reg = <0xb220000 0x10000>, <0x174000f0 0x64>;
@@ -704,6 +717,11 @@
 		interrupt-controller;
 	};
 
+	pcie_pdc: pdc@b340000 {
+		compatible = "qcom,niobe-pcie-pdc", "qcom,pcie-pdc";
+		reg = <0xb340000 0x30000>;
+	};
+
 	kryo-erp {
 		compatible = "arm,arm64-kryo-cpu-erp";
 		interrupts = <GIC_PPI 6 IRQ_TYPE_LEVEL_HIGH>,
@@ -713,8 +731,8 @@
 
 	gic-interrupt-router {
 		compatible = "qcom,gic-intr-routing";
-		qcom,gic-class0-cpus = <0 1>;
-		qcom,gic-class1-cpus = <2 3 4 5>;
+		qcom,gic-class0-cpus = <&CPU0 &CPU1>;
+		qcom,gic-class1-cpus = <&CPU2 &CPU3 &CPU4 &CPU5>;
 	};
 
 	cluster-device {
@@ -1079,18 +1097,27 @@
 		};
 	};
 
+	pcie_crm_hw_0_bcm_voter: bcm_voter@0 {
+		compatible = "qcom,bcm-voter";
+		qcom,crm-name = "pcie_crm";
+		qcom,crm-client-idx = <0>;
+		qcom,crm-pwr-states = <5>;
+	};
+
 	clk_virt: interconnect@0 {
 		compatible = "qcom,niobe-clk_virt";
 		#interconnect-cells = <1>;
-		qcom,bcm-voter-names = "hlos";
-		qcom,bcm-voters = <&apps_bcm_voter>;
+		qcom,bcm-voter-names = "hlos", "pcie_crm_hw_0";
+		qcom,bcm-voters = <&apps_bcm_voter>,
+				  <&pcie_crm_hw_0_bcm_voter>;
 	};
 
 	mc_virt: interconnect@1 {
 		compatible = "qcom,niobe-mc_virt";
 		#interconnect-cells = <1>;
-		qcom,bcm-voter-names = "hlos", "disp", "disp2";
-		qcom,bcm-voters = <&apps_bcm_voter>, <&disp0_bcm_voter>, <&disp1_bcm_voter>;
+		qcom,bcm-voter-names = "hlos", "disp", "disp2", "pcie_crm_hw_0";
+		qcom,bcm-voters = <&apps_bcm_voter>, <&disp0_bcm_voter>,
+				  <&disp1_bcm_voter>, <&pcie_crm_hw_0_bcm_voter>;
 	};
 
 	aggre1_noc: interconnect@16E0000 {
@@ -1133,8 +1160,9 @@
 		compatible = "qcom,niobe-gem_noc";
 		reg = <0x24100000 0xC1080>;
 		#interconnect-cells = <1>;
-		qcom,bcm-voter-names = "hlos", "disp", "disp2";
-		qcom,bcm-voters = <&apps_bcm_voter>, <&disp0_bcm_voter>, <&disp1_bcm_voter>;
+		qcom,bcm-voter-names = "hlos", "disp", "disp2", "pcie_crm_hw_0";
+		qcom,bcm-voters = <&apps_bcm_voter>, <&disp0_bcm_voter>,
+				  <&disp1_bcm_voter>, <&pcie_crm_hw_0_bcm_voter>;
 	};
 
 	lpass_ag_noc: interconnect@3C40000 {
@@ -1165,8 +1193,9 @@
 		compatible = "qcom,niobe-pcie_anoc";
 		reg = <0x16C0000 0x14200>;
 		#interconnect-cells = <1>;
-		qcom,bcm-voter-names = "hlos";
-		qcom,bcm-voters = <&apps_bcm_voter>;
+		qcom,bcm-voter-names = "hlos", "pcie_crm_hw_0";
+		qcom,bcm-voters = <&apps_bcm_voter>,
+				  <&pcie_crm_hw_0_bcm_voter>;
 		clocks = <&gcc GCC_AGGRE_NOC_PCIE_AXI_CLK>,
 			 <&gcc GCC_CFG_NOC_PCIE_ANOC_AHB_CLK>;
 	};
@@ -1228,6 +1257,15 @@
 		interrupt-controller;
 		#interrupt-cells = <2>;
 		wakeup-parent = <&pdc>;
+	};
+
+	qti,smmu-proxy {
+		compatible = "smmu-proxy-sender";
+	};
+
+	qcom,seccamtest {
+		compatible = "qcom,seccamtest";
+		qti,smmu-proxy-cb-id = <QTI_SMMU_PROXY_CAMERA_CB>;
 	};
 
 	tlmm-vm-mem-access {
@@ -1309,6 +1347,8 @@
 		qcom,vmid = <50>;
 		qcom,firmware-name = "cpusys_vm";
 		memory-region = <&cpusys_vm_mem>;
+		ext-region = <&chipinfo_mem>;
+		ext-label = <0x7>;
 	};
 
 	clocks {
@@ -1505,8 +1545,6 @@
 		reg-name = "cc_base";
 		vdd_cx-supply = <&VDD_CX_LEVEL>;
 		vdd_mx-supply = <&VDD_MXA_LEVEL>;
-		vdd_gfx-supply = <&VDD_GFX_LEVEL>;
-		vdd_mxc-supply = <&VDD_MXC_LEVEL>;
 		clocks = <&rpmhcc RPMH_CXO_CLK>, <&gcc GCC_GPU_GPLL0_CLK_SRC>,
 			<&gcc GCC_GPU_GPLL0_DIV_CLK_SRC>;
 		clock-names = "bi_tcxo", "gpll0_out_main",
@@ -1772,11 +1810,16 @@
 		clocks = <&rpmhcc RPMH_CXO_CLK>;
 		clock-names = "xo";
 
+		interconnects = <&aggre2_noc MASTER_SOCCP_AGGR_NOC &mc_virt SLAVE_EBI1>,
+				<&cnoc_main MASTER_CNOC_CFG &mc_virt SLAVE_EBI1>;
+		interconnect-names = "rproc_ddr", "rproc_cnoc";
+
 		memory-region = <&soccp_mem 0>;
-		soccp-config = <&tcsr 0x9d004>;
+		soccp-tcsr = <&tcsr 0x9d004>;
+		soccp-spare = <0xda0024>;
 
 		/* Inputs from SOCCP */
-		interrupts-extended = <&intc GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>,
+		interrupts-extended = <&intc GIC_SPI 250 IRQ_TYPE_EDGE_RISING>,
 					<&soccp_smp2p_in 0 0>,
 					<&soccp_smp2p_in 1 0>,
 					<&soccp_smp2p_in 3 0>,
@@ -1913,6 +1956,7 @@
 		reg = <0x1d80000 0x2000>;
 		reg-names = "phy_mem";
 		#phy-cells = <0>;
+
 		lanes-per-direction = <2>;
 		clock-names = "ref_clk_src",
 			"ref_aux_clk", "qref_clk",
@@ -1936,8 +1980,9 @@
 		compatible = "qcom,ufshc";
 		reg = <0x1d84000 0x3000>,
 			<0x1D88000 0x8000>,
-			<0x1D90000 0x9000>;
-		reg-names = "ufs_mem","ufs_ice","ufs_ice_hwkm";
+			<0x1D90000 0x9000>,
+			<0x1da5000 0x2000>, <0x1da4000 0x10>;
+		reg-names = "ufs_mem","ufs_ice","ufs_ice_hwkm", "mcq_sqd", "mcq_vs";
 		interrupts = <GIC_SPI 265 IRQ_TYPE_LEVEL_HIGH>;
 		phys = <&ufsphy_mem>;
 		phy-names = "ufsphy";
@@ -2045,15 +2090,22 @@
 
 		iommus = <&apps_smmu 0x60 0x0>;
 		qcom,iommu-dma = "fastmap";
+		qcom,iommu-dma-addr-pool = <0x1000 0xFFFFF000>;
+		qcom,iommu-msi-size = <0x1000>;
 		shared-ice-cfg = <&ice_cfg>;
 		dma-coherent;
 
 		/* skip pbl wa as we have got this fixed in pbl */
 		qcom,bypass-pbl-rst-wa;
 
+		/* Enable WA for broken ah8*/
+		qcom,broken-ahit-wa;
+
 		reset-gpios = <&tlmm 200 GPIO_ACTIVE_LOW>;
 		resets = <&gcc GCC_UFS_PHY_BCR>;
 		reset-names = "rst";
+
+		msi-parent = <&gic_its 0x60>;
 
 		status = "disabled";
 
@@ -2202,6 +2254,10 @@
 			reg = <0x80>;
 			#clock-cells = <1>;
 		};
+	};
+
+	qcom_cpufreq_stats: qcom,cpufreq_stats {
+		compatible = "qcom,cpufreq-stats-v2";
 	};
 
 	cpucp_log: qcom,cpucp_log@d8140000 {
@@ -2500,7 +2556,7 @@
 
 			ddrqos_prime_latfloor: prime-latfloor {
 				compatible = "qcom,memlat-mon";
-				qcom,cpulist = <&CPU2 &CPU3 &CPU4 &CPU5>;
+				qcom,cpulist = <&CPU0 &CPU1 &CPU2 &CPU3 &CPU4 &CPU5>;
 				qcom,cpufreq-memfreq-tbl =
 					< 1900800 0 >,
 					< 2880000 1 >;
@@ -2634,6 +2690,16 @@
 		compatible = "qcom,msm_gsi";
 	};
 
+	cnss_ipa_wlan_iommu_group0: cnss_ipa_wlan_iommu_group0 {
+		qcom,iommu-msi-size = <0x1000>;
+		qcom,iommu-dma-addr-pool = <0x98000000 0x18000000>;
+		qcom,iommu-geometry = <0x98000000 0x18010000>;
+		qcom,iommu-dma = "fastmap";
+		qcom,iommu-pagetable = "coherent";
+		qcom,iommu-faults = "stall-disable", "HUPCF",
+				    "non-fatal";
+	};
+
 	ipa_hw: qcom,ipa@3e00000 {
 		compatible = "qcom,ipa";
 		reg =
@@ -2678,6 +2744,7 @@
 		qcom,scaling-exceptions = <>;
 		qcom,interconnect,num-cases = <5>;
 		qcom,interconnect,num-paths = <3>;
+		mboxes = <&qmp_aop 0>;
 		interconnects = <&aggre2_noc MASTER_IPA &gem_noc SLAVE_LLCC>,
 			<&mc_virt MASTER_LLCC &mc_virt SLAVE_EBI1>,
 			<&gem_noc MASTER_APPSS_PROC &cnoc_main SLAVE_IPA_CFG>;
@@ -2719,7 +2786,8 @@
 		ipa_smmu_wlan: ipa_smmu_wlan {
 			compatible = "qcom,ipa-smmu-wlan-cb";
 			iommus = <&apps_smmu 0x4A1 0x0>;
-			qcom,iommu-dma = "atomic";
+			qcom,iommu-group = <&cnss_ipa_wlan_iommu_group0>;
+			qcom,shared-cb;
 			dma-coherent;
 		};
 
@@ -2728,7 +2796,7 @@
 			iommus = <&apps_smmu 0x4A2 0x0>;
 			qcom,iommu-dma-addr-pool = <0x20000000 0x20000000>;
 			/* Map IPCC Fence Protocol Region to uC CB */
-			qcom,ipcc-mapping = <0x500000 0x500000 0x40000>;
+			qcom,ipcc-mapping = <0x504000 0x504000 0x1000>;
 			qcom,iommu-dma = "atomic";
 			dma-coherent;
 		};
@@ -2772,6 +2840,132 @@
 		shared-buffer-size = <0x1000>;
 	};
 
+	qcom,qrtr-gunyah-tuivm {
+		compatible = "qcom,qrtr-gunyah";
+		qcom,master;
+		gunyah-label = <3>;
+		peer-name = <2>;
+	};
+
+	hall_gpio {
+		compatible = "qcom,hall-gpio";
+		label = "hall_gpio";
+		pinctrl-names = "sleep", "active";
+		pinctrl-0 = <&hall_gpio_sleep>;
+		pinctrl-1 = <&hall_gpio_active>;
+		vdd-supply = <&L14B>;
+		status = "ok";
+	};
+
+	pdm_pwm: pdm_pwm@8600000 {
+		compatible = "qcom,pdm-pwm-v2";
+		reg = <0x8600000 0x16000>;
+		clocks = <&gcc GCC_PDM_AHB_CLK>, <&gcc GCC_PWM0_XO512_CLK>;
+		clock-names =  "pdm_ahb_clk", "pwm_core_clk";
+		assigned-clocks = <&gcc GCC_PWM0_XO512_CLK>;
+		assigned-clock-rates = <19200000>;
+		#pwm-cells = <3>;
+
+		pwm@0 {
+			frame-index = <0>;
+			frame-offset = <0x1000>;
+		};
+
+		pwm@1 {
+			frame-index = <1>;
+			frame-offset = <0x2000>;
+		};
+
+		pwm@2 {
+			frame-index = <2>;
+			frame-offset = <0x3000>;
+		};
+
+		pwm@3 {
+			frame-index = <3>;
+			frame-offset = <0x4000>;
+		};
+
+		pwm@4 {
+			frame-index = <4>;
+			frame-offset = <0x5000>;
+		};
+
+		pwm@5 {
+			frame-index = <5>;
+			frame-offset = <0x6000>;
+		};
+
+		pwm@6 {
+			frame-index = <6>;
+			frame-offset = <0x7000>;
+		};
+
+		pwm@7 {
+			frame-index = <7>;
+			frame-offset = <0x8000>;
+		};
+
+		pwm@8 {
+			frame-index = <8>;
+			frame-offset = <0x9000>;
+		};
+
+		pwm@9 {
+			frame-index = <9>;
+			frame-offset = <0xa000>;
+		};
+
+		pwm@10 {
+			frame-index = <10>;
+			frame-offset = <0xb000>;
+		};
+
+		pwm@11 {
+			frame-index = <11>;
+			frame-offset = <0xc000>;
+		};
+
+		pwm@12 {
+			frame-index = <12>;
+			frame-offset = <0xd000>;
+		};
+
+		pwm@13 {
+			frame-index = <13>;
+			frame-offset = <0xe000>;
+		};
+
+		pwm@14 {
+			frame-index = <14>;
+			frame-offset = <0xf000>;
+		};
+
+		pwm@15 {
+			frame-index = <15>;
+			frame-offset = <0x10000>;
+		};
+
+		pwm@16 {
+			frame-index = <16>;
+			frame-offset = <0x11000>;
+		};
+
+		pwm@17 {
+			frame-index = <17>;
+			frame-offset = <0x12000>;
+		};
+
+		pwm@18 {
+			frame-index = <18>;
+			frame-offset = <0x13000>;
+		};
+
+		pwm@19 {
+			frame-index = <19>;
+			frame-offset = <0x14000>;
+		};
+	};
 };
 
 &reserved_memory {
@@ -2935,6 +3129,8 @@
 	clock-names = "ahb_clk";
 	parent-supply = <&VDD_MM_MXC_VOTER_LEVEL>;
 	reg = <0xadf4024 0x4>;
+	interconnects = <&mmss_noc MASTER_CAMNOC_HF &mmss_noc SLAVE_MNOC_HF_MEM_NOC>;
+	interconnect-names = "mmnoc";
 	qcom,support-hw-trigger;
 	status = "ok";
 };
@@ -3103,3 +3299,10 @@
 #include "niobe-debug.dtsi"
 #include "niobe-thermal.dtsi"
 #include "niobe-pcie.dtsi"
+
+&pcie2_rp {
+	sdxc_pcie2: sdxc_pcie2 {
+		reg = <0x10000 0x0 0x0 0x0 0x0>;
+		qcom,iommu-dma = "atomic";
+	};
+};

@@ -14,6 +14,8 @@
 			     <GIC_SPI 640 IRQ_TYPE_LEVEL_HIGH>;
 		interrupt-names = "uplow","critical";
 		#thermal-sensor-cells = <1>;
+		nvmem-cells = <&tsens_itemp>;
+		nvmem-cell-names = "tsens_itemp";
 	};
 
 	tsens1: tsens1@c229000 {
@@ -25,6 +27,8 @@
 			     <GIC_SPI 641 IRQ_TYPE_LEVEL_HIGH>;
 		interrupt-names = "uplow","critical";
 		#thermal-sensor-cells = <1>;
+		nvmem-cells = <&tsens_itemp>;
+		nvmem-cell-names = "tsens_itemp";
 	};
 
 	qcom,cpu-pause {
@@ -78,15 +82,9 @@
 			#cooling-cells = <2>;
 		};
 
-		APC0_pause: apc0-pause {
-			qcom,cpus = <&CPU2 &CPU3 &CPU4>;
-			qcom,cdev-alias = "thermal-pause-1C";
-			#cooling-cells = <2>;
-		};
-
 		APC1_pause: apc1-pause {
-			qcom,cpus = <&CPU5 &CPU6 &CPU7>;
-			qcom,cdev-alias = "thermal-pause-E0";
+			qcom,cpus = <&CPU4 &CPU5 &CPU6 &CPU7>;
+			qcom,cdev-alias = "thermal-pause-F0";
 			#cooling-cells = <2>;
 		};
 
@@ -254,7 +252,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -273,7 +271,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -292,7 +290,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -323,7 +321,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -361,7 +359,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -399,7 +397,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -437,7 +435,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -475,7 +473,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -513,7 +511,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -551,7 +549,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -589,7 +587,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -627,7 +625,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -658,7 +656,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -698,7 +696,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -736,7 +734,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -762,7 +760,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -787,7 +785,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -812,7 +810,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -837,7 +835,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -868,7 +866,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -906,7 +904,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -932,7 +930,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -951,7 +949,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -970,7 +968,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 	};
@@ -1007,7 +1005,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -1071,7 +1069,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -1135,7 +1133,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
@@ -1199,7 +1197,7 @@
 			reset-mon-cfg {
 				temperature = <115000>;
 				hysteresis = <5000>;
-				type = "passive";
+				type = "hot";
 			};
 		};
 
