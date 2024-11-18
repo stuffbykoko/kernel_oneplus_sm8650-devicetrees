@@ -20,8 +20,16 @@ ifeq ($(CONFIG_ARCH_CLIFFS), y)
 dtbo-y += cliffs-dsp.dtbo
 endif
 
+ifeq ($(CONFIG_ARCH_VOLCANO), y)
+dtbo-y += volcano-dsp.dtbo
+endif
+
 ifeq ($(CONFIG_ARCH_PITTI), y)
 dtbo-y += pitti-dsp.dtbo
+endif
+
+ifeq ($(CONFIG_ARCH_NEO), y)
+dtbo-y += neo-dsp.dtbo
 endif
 
 always-y	:= $(dtb-y) $(dtbo-y)
